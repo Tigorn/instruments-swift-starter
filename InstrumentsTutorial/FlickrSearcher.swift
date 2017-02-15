@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-let apiKey = "4a411822a2473b10ac16d3fb935357c3"
+let apiKey = "665d363377bed56ced37a627947ebc56"
 
 let secret = "d1630f22f427ff09"
 
@@ -101,7 +101,7 @@ class Flickr {
         return
       }
       
-      let JSONError : NSError?
+      let JSONError: NSError? = nil
       let resultsDictionary = try! JSONSerialization.jsonObject(with: data!, options:JSONSerialization.ReadingOptions(rawValue: 0)) as? NSDictionary
       if JSONError != nil {
         completion(nil, JSONError)
@@ -145,7 +145,8 @@ class Flickr {
   }
   
   fileprivate func flickrSearchURLForSearchTerm(_ searchTerm:String) -> URL {
-    let escapedTerm = searchTerm.addingPercentEscapes(using: String.Encoding.utf8)!
+    let escapedTerm = searchTerm.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+
     let URLString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&text=\(escapedTerm)&per_page=30&format=json&nojsoncallback=1"
     return URL(string: URLString)!
   }
